@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers: 
+        - name: app
+          image: python:3.6.8
+          ports:
+            - containerPort: 8080
+		  env:
+			- name: MONGO_URI
+			- value: mongodb://mongodb:27017/restaurant
+---
+apiVersion: v1  
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000  
+  type: LoadBalancer   
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-db
+  template:
+    metadata:
+      labels:
+        app: my-db
+    spec:
+      containers:
+        - name: db
+          image: mongo:6.0.6
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: db-data
+              mountPath: /data/db
+      volumes:
+        - name: db-data
+          emptyDir: {}

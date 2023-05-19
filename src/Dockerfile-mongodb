@@ -1,0 +1,10 @@
+FROM mongo:6.0.6
+
+COPY data/restaurant.json /docker-entrypoint-initdb.d/
+
+ENV MONGO_INITDB_ROOT_USERNAME=admin \
+    MONGO_INITDB_ROOT_PASSWORD=password
+
+EXPOSE 27017
+
+CMD ["mongod"]
