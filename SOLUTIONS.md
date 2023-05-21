@@ -100,6 +100,9 @@ EXPOSE 8000
 # Set the container start command
 CMD ["python", "app.py"]
 
+We can execute this dockerfile with the next command:
+docker build -t imagen_name .   (build the docker image)
+docker run -p local_port:8000 imagen_name  (run the docker image)
 
 Challenge 4. Dockerize the database
 DockerMongo
@@ -123,6 +126,9 @@ EXPOSE 27017
 # Set the container start command (provided by the base image)
 CMD ["mongod"]
 
+We can execute this dockerfile with the next command:
+docker build -t imagen_name .   (build the docker image)
+docker run -p local_port:8000 imagen_name  (run the docker image)
 
 Challenge 5. Docker Compose it
 Docker Compose
